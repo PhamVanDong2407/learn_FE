@@ -12,7 +12,7 @@ class SplashController extends GetxController {
       Constant.ACCESS_TOKEN,
     );
     if (accessToken.isEmpty) {
-      Get.offAllNamed(Routes.login);
+      Get.offAllNamed(Routes.introduce);
     } else {
       await Auth.login();
     }

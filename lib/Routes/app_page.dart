@@ -7,7 +7,7 @@ part 'app_route.dart';
 class AppPage {
   AppPage._();
 
-  static const String initialRoute = Routes.introduce;
+  static const String initialRoute = Routes.splash;
 
   static final List<GetPage<dynamic>> routes = [
     // GetPage(name: Routes.dashboard, page: () => Dashboard()),
