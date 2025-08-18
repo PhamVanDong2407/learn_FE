@@ -1,5 +1,6 @@
 import 'package:fetest/Controllers/Login/login_controller.dart';
 import 'package:fetest/Global/app_color.dart';
+import 'package:fetest/Routes/app_page.dart';
 import 'package:fetest/Utils/device_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -161,7 +162,7 @@ class Login extends StatelessWidget {
                           width: double.infinity,
                           child: OutlinedButton(
                             onPressed: () {
-                              // Get.to(() => RegisterPage());
+                              Get.toNamed(Routes.register);
                             },
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 14),
