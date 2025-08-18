@@ -1,5 +1,6 @@
 import 'package:fetest/Global/app_color.dart';
 import 'package:fetest/Routes/app_page.dart';
+import 'package:fetest/Views/Login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -58,8 +59,9 @@ class MyApp extends StatelessWidget {
               ),
             ),
             debugShowCheckedModeBanner: false,
-            initialRoute: AppPage.initialRoute,
-            getPages: AppPage.routes,
+            // initialRoute: AppPage.initialRoute,
+            // getPages: AppPage.routes,
+            home: Login(),
           ),
     );
   }
