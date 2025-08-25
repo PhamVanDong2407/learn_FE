@@ -1,11 +1,16 @@
+import 'package:fetest/Controllers/Register/verify_controller..dart';
 import 'package:fetest/Global/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class VerifyRegister extends StatelessWidget {
   VerifyRegister({super.key});
 
-  final TextEditingController _otpController = TextEditingController();
+  final controller = Get.put(VerifyRegisterController());
+  final _otpController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,52 +31,89 @@ class VerifyRegister extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 32),
-              const Icon(Icons.email_outlined, size: 40, color: Colors.grey),
-              const SizedBox(height: 16),
+              SvgPicture.asset('assets/icons/mess.svg'),
+              const SizedBox(height: 8),
               Text(
                 'Xác thực OTP',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Text(
-                'Chúng tôi đã gửi mã xác thực qua email: ',
+                'Chúng tôi đã gửi mã xác thực cho bạn qua địa chỉ email: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 13,
                   color: Colors.black.withOpacity(0.6),
                 ),
               ),
-              const SizedBox(height: 32),
-              TextFormField(
-                controller: _otpController,
-                keyboardType: TextInputType.number,
+              SizedBox(height: 4),
+              Text(
+                'dongkeyphe@gmail.com',
                 textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: 'Mã xác nhận',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Colors.orange.withOpacity(0.3),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Colors.orange,
-                      width: 2,
-                    ),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.blue.withOpacity(0.6),
                 ),
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              ),
+              SizedBox(height: 16),
+              Form(
+                key: _formKey,
+                child: ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _otpController,
+                  builder: (context, value, child) {
+                    return TextFormField(
+                      controller: _otpController,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.left,
+                      maxLength: 6,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        hintText: 'Mã xác nhận',
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: AppColor.primary,
+                        ),
+                        suffixIcon:
+                            value.text.length == 6
+                                ? Icon(Icons.check_circle, color: Colors.green)
+                                : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: AppColor.primary),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColor.primary,
+                            width: 2,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                        ),
+                        counterText: '',
+                      ),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập mã xác nhận';
+                        }
+                        if (value.length != 6) {
+                          return 'Mã xác nhận phải gồm 6 chữ số';
+                        }
+                        return null;
+                      },
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 16),
@@ -80,16 +122,18 @@ class VerifyRegister extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Add verification logic here
+                    if (_formKey.currentState!.validate()) {
+                      // controller.verifyOTP(_otpController.text);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: AppColor.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     elevation: 3,
-                    shadowColor: Colors.orange.withOpacity(0.4),
+                    shadowColor: AppColor.primary.withOpacity(0.4),
                   ),
                   child: const Text(
                     'Xác nhận',
